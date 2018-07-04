@@ -140,7 +140,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
 - Algorithm is used for classification algorithm of 2 classes.
 - Equations:
-  - Simple equation:	`y = w(transpose)x + b`
+  - Simple equation:	`y = wx + b`
   - If x is a vector: `y = w(transpose)x + b`
   - If we need y to be in between 0 and 1 (probability): `y = sigmoid(w(transpose)x + b)`
   - In some notations this might be used: `y = sigmoid(w(transpose)x)` 
@@ -148,7 +148,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - In binary classification `Y` has to be between `0` and `1`.
 - In the last equation `w` is a vector of `Nx` and `b` is a real number
 
-![](Images/logits.png)
+![](Images/LogsiticRegression-slide.png)
 
 ### Logistic regression cost function
 
@@ -161,21 +161,28 @@ Here are the course summary as its given on the course [link](https://www.course
 - Then the Cost function will be: `J(w,b) = (1/m) * Sum(L(y'[i],y[i]))`
 - The loss function computes the error for a single training example; the cost function is the average of the loss functions of the entire training set.
 
+- optional: explain cost function
+	- Minimizing the loss corresponds with maximizing logp(y|x).
+
+![](Images/costfunc.png)
+
 ### Gradient Descent
 
 - We want to predict `w` and `b` that minimize the cost function.
-- Our cost function is convex.
+- Our cost function is convex: global optimization while square error loss function is non-convex, leads to non-global/local optimizations.
 - First we initialize `w` and `b` to 0,0 or initialize them to a random value in the convex function and then try to improve the values the reach minimum value.
 - In Logistic regression people always use 0,0 instead of random.
 - The gradient decent algorithm repeats: `w = w - alpha * dw`
   where alpha is the learning rate and `dw` is the derivative of `w` (Change to `w`) 
   The derivative is also the slope of `w`
 - Looks like greedy algorithms. the derivative give us the direction to improve our parameters.
-
-
 - The actual equations we will implement:
   - `w = w - alpha * d(J(w,b) / dw)`        (how much the function slopes in the w direction)
   - `b = b - alpha * d(J(w,b) / db)`        (how much the function slopes in the d direction)
+- dw: when only variable; lower-dw: 2+ variables (see below)
+
+![](Images/GradientDescent-notation.png)
+
 
 ### Derivatives
 
@@ -213,6 +220,7 @@ Here are the course summary as its given on the course [link](https://www.course
 ### Logistic Regression Gradient Descent
 
 - In the video he discussed the derivatives of gradient decent example for one sample with two features `x1` and `x2`.
+- d(sigmoid) = sigmoid*(1-sigmoid) --> very different from other derivatives
   - ![](Images/04.png)
 
 ### Gradient Descent on m Examples
@@ -286,21 +294,29 @@ Here are the course summary as its given on the course [link](https://www.course
 ### Vectorizing Logistic Regression
 
 - We will implement Logistic Regression using one for loop then without any for loop.
+	- always AVOID explicit for loop; make use of numpy's implementations to do vectorization computation
 - As an input we have a matrix `X` and its `[Nx, m]` and a matrix `Y` and its `[Ny, m]`.
+- W.T is a row vector in shape (1, Nx), that means m instances (x) share the same weight... we call that a batch. This is also why weight gets updated per batch
+- b is a value (1,1), np automatically does braodcasting for us to make it (1,m) [b,b,b,...]
 - We will then compute at instance `[z1,z2...zm] = W' * X + [b,b,...b]`. This can be written in python as:
 
-    		Z = np.dot(W.T,X) + b    # Vectorization, then broadcasting, Z shape is (1, m)
-    		A = 1 / 1 + np.exp(-Z)   # Vectorization, A shape is (1, m)
+```python
+    		Z = np.dot(W.T,X) + b;    # Vectorization, then broadcasting, Z shape is (1, m)
+    		A = 1 / 1 + np.exp(-Z);   # Vectorization, A shape is (1, m)
+```
 
 - Vectorizing Logistic Regression's Gradient Output:
 
    			dz = A - Y                  # Vectorization, dz shape is (1, m)
    			dw = np.dot(X, dz.T) / m    # Vectorization, dw shape is (Nx, 1)
    			db = dz.sum() / m           # Vectorization, dz shape is (1, 1)
+   			
+ ![](Images/vectorization.png)
+
 
 ### Notes on Python and NumPy
 
-- In NumPy, `obj.sum(axis = 0)` sums the columns while `obj.sum(axis = 1)` sums the rows.
+- In NumPy, `obj.sum(axis = 0)` sums the columns while `obj.sum(axis = 1)` sums the rows. Make it easier to remember, axis=i, rank i is the rank to be reduced/eliminated to 1
 - In NumPy, `obj.reshape(1,4)` changes the shape of the matrix by broadcasting the values.
 - Reshape is cheap in calculations so put it everywhere you're not sure about the calculations.
 - Broadcasting works when you do a matrix operation with matrices that doesn't match for the operation, in this case NumPy automatically makes the shapes ready for the operation by broadcasting the values.
@@ -325,6 +341,9 @@ Here are the course summary as its given on the course [link](https://www.course
   ```
 
 - Gradient descent converges faster after normalization of the input matrices.
+
+![](Images/np.png)
+
 
 ### General Notes
 
