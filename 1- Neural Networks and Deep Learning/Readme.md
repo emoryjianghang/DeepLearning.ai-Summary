@@ -140,13 +140,15 @@ Here are the course summary as its given on the course [link](https://www.course
 
 - Algorithm is used for classification algorithm of 2 classes.
 - Equations:
-  - Simple equation:	`y = wx + b`
+  - Simple equation:	`y = w(transpose)x + b`
   - If x is a vector: `y = w(transpose)x + b`
   - If we need y to be in between 0 and 1 (probability): `y = sigmoid(w(transpose)x + b)`
   - In some notations this might be used: `y = sigmoid(w(transpose)x)` 
     - While `b` is `w0` of `w` and we add `x0 = 1`. but we won't use this notation in the course (Andrew said that the first notation is better).
 - In binary classification `Y` has to be between `0` and `1`.
 - In the last equation `w` is a vector of `Nx` and `b` is a real number
+
+![](Images/logits.png)
 
 ### Logistic regression cost function
 
