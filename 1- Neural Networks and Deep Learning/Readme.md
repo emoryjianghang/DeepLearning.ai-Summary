@@ -399,19 +399,17 @@ Here are the course summary as its given on the course [link](https://www.course
 ### Computing a Neural Network's Output
 
 - Equations of Hidden layers:
-  - ![](Images/05.png)
+  - ![Multiple Neurons with single example](Images/05.png)
 - Here are some informations about the last image:
   - `noOfHiddenNeurons = 4`
-  - `Nx = 3`
+  - `Nx = 3`: number of features for each instance x
   - Shapes of the variables:
-    - `W1` is the matrix of the first hidden layer, it has a shape of `(noOfHiddenNeurons,nx)`
+	- `X`: shape (nx, #instance)
+    - `W1.T` is the matrix of the first hidden layer, it has a shape of `(noOfHiddenNeurons,nx)`
     - `b1` is the matrix of the first hidden layer, it has a shape of `(noOfHiddenNeurons,1)`
-    - `z1` is the result of the equation `z1 = W1*X + b`, it has a shape of `(noOfHiddenNeurons,1)`
+    - `z1` is the result of the equation `z1 = W1*X + b`, it has a shape of `(noOfHiddenNeurons,1)`, z1 correspond to the first instance
+    - `z[1]` is in shape `(noOfHiddenNeurons, #instance)`; `z[1]`'s first column is `z1`
     - `a1` is the result of the equation `a1 = sigmoid(z1)`, it has a shape of `(noOfHiddenNeurons,1)`
-    - `W2` is the matrix of the second hidden layer, it has a shape of `(1,noOfHiddenLayers)`
-    - `b2` is the matrix of the second hidden layer, it has a shape of `(1,1)`
-    - `z2` is the result of the equation `z2 = W2*a1 + b`, it has a shape of `(1,1)`
-    - `a2` is the result of the equation `a2 = sigmoid(z2)`, it has a shape of `(1,1)`
 
 ### Vectorizing across multiple examples
 
@@ -446,6 +444,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Activation functions
 
+- ![Four activation functions](Images/activation.png)
 - So far we are using sigmoid, but in some cases other functions can be a lot better.
 - Sigmoid can lead us to gradient decent problem where the updates are so low.
 - Sigmoid activation function range is [0,1]
@@ -474,8 +473,8 @@ Here are the course summary as its given on the course [link](https://www.course
 ### Why do you need non-linear activation functions?
 
 - If we removed the activation function from our algorithm that can be called linear activation function.
-- Linear activation function will output linear activations
-  - Whatever hidden layers you add, the activation will be always linear like logistic regression (So its useless in a lot of complex problems)
+- Linear activation function will output linear activations (identity layer function) `g(z) = z`
+  - Whatever hidden layers you add, the activation will be always linear like logistic regression (So its useless in a lot of complex problems). In other words, Non-linear Acitvation functions make the depth of neural networks matter/important to explore features.
 - You might use linear activation function in one place - in the output layer if the output is real numbers (regression problem). But even in this case if the output value is non-negative you could use RELU instead.
 
 ### Derivatives of activation functions
@@ -483,6 +482,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - Derivation of Sigmoid activation function:
 
   ```
+  g' means dg/gz, the gradient
   g(z) = 1 / (1 + np.exp(-z))
   g'(z) = (1 / (1 + np.exp(-z))) * (1 - (1 / (1 + np.exp(-z))))
   g'(z) = g(z) * (1 - g(z))
@@ -500,7 +500,8 @@ Here are the course summary as its given on the course [link](https://www.course
   ```
   g(z)  = np.maximum(0,z)
   g'(z) = { 0  if z < 0
-            1  if z >= 0  }
+            1  if z >= 0  }        
+# in theory, when z=0, the gradient should be undefined, but in practice, we dont care...            
   ```
 
 - Derivation of leaky RELU activation function:
@@ -512,6 +513,9 @@ Here are the course summary as its given on the course [link](https://www.course
   ```
 
 ### Gradient descent for Neural Networks
+
+![](Images/week3/NN.png)
+
 - In this section we will have the full back propagation of the neural network (Just the equations with no explanations).
 - Gradient descent algorithm:
   - NN parameters:
@@ -544,6 +548,9 @@ Here are the course summary as its given on the course [link](https://www.course
   A2 = Sigmoid(Z2)      # Sigmoid because the output is between 0 and 1
   ```
 
+![](Images/week3/Backprop.png)
+
+
 - Backpropagation (derivations):   
   ```
   dZ2 = A2 - Y      # derivative of cost function we used * derivative of the sigmoid function
@@ -568,8 +575,8 @@ Here are the course summary as its given on the course [link](https://www.course
 - To solve this we initialize the W's with a small random numbers:
 
   ```
-  W1 = np.random.randn((2,2)) * 0.01    # 0.01 to make it small enough
-  b1 = np.zeros((2,1))                  # its ok to have b as zero, it won't get us to the symmetry breaking problem
+  W1 = np.random.randn(2,2) * 0.01    # 0.01 to make it small enough
+  b1 = np.zeros((2,1))                # its ok to have b as zero, it won't get us to the symmetry breaking problem
   ```
 
 - We need small values because in sigmoid (or tanh), for example, if the weight is too large you are more likely to end up even at the very start of training with very large values of Z. Which causes your tanh or your sigmoid activation function to be saturated, thus slowing down learning. If you don't have any sigmoid or tanh activation functions throughout your neural network, this is less of an issue.
