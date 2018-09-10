@@ -128,7 +128,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Train/dev/test distributions
 
-- Dev and test sets have to come from the same distribution.
+- Dev and test sets have to come from the **same distribution.**
 - Choose dev set and test set to reflect data you expect to get in the future and consider important to do well on.
 - Setting up the dev set, as well as the validation metric is really defining what target you want to aim at.
 
@@ -136,7 +136,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
 - An old way of splitting the data was 70% training, 30% test or 60% training, 20% dev, 20% test. 
 - The old way was valid for a number of examples ~ <100000 
-- In the modern deep learning if you have a million or more examples a reasonable split would be 98% training, 1% dev, 1% test. 
+- In the modern deep learning if you have a million or more examples a reasonable split would be **98% training, 1% dev, 1% test. **
 
 ### When to change dev/test sets and metrics
 
@@ -169,7 +169,7 @@ Here are the course summary as its given on the course [link](https://www.course
   2. It turns out that the workflow of designing and building a machine learning system is much more efficient when you're trying to do something that humans can also do.
 - After an algorithm reaches the human level performance the progress and accuracy slow down.
     ![01- Why human-level performance](Images/01-_Why_human-level_performance.png)
-- You won't surpass an error that's called "Bayes optimal error".
+- You won't surpass an error that's called **"Bayes optimal error".** (which is not 100%)
 - There isn't much error range between human-level error and Bayes optimal error.
 - Humans are quite good at a lot of tasks. So as long as Machine learning is worse than humans, you can:
   - Get labeled data from humans.
@@ -186,7 +186,7 @@ Here are the course summary as its given on the course [link](https://www.course
   | **Dev Error**      | 10%  | 10%  |
   - In the left example, because the human level error is 1% then we have to focus on the **bias**.
   - In the right example, because the human level error is 7.5% then we have to focus on the **variance**.
-  - The human-level error as a proxy (estimate) for Bayes optimal error. Bayes optimal error is always less (better), but human-level in most cases is not far from it.
+  - **The human-level error is used as a proxy (estimate) for Bayes optimal error**. Bayes optimal error is always less (better), but human-level in most cases is not far from it.
   - You can't do better then Bayes error unless you are overfitting.
   - `Avoidable bias = Training error - Human (Bayes) error`
   - `Variance = Dev error - Training error`
@@ -213,7 +213,7 @@ Here are the course summary as its given on the course [link](https://www.course
   - Online advertising.
   - Product recommendation.
   - Loan approval.
-- The last examples are not natural perception task, rather learning on structural data. Humans are far better in natural perception tasks like computer vision and speech recognition.
+- The last examples are not natural perception task, rather learning on **structural data**. **Humans are far better in natural perception tasks like computer vision and speech recognition.**
 - It's harder for machines to surpass human-level performance in natural perception task. But there are already some systems that achieved it.
 
 ### Improving your model performance
@@ -263,7 +263,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
 ### Cleaning up incorrectly labeled data
 
-- DL algorithms are quite robust to random errors in the training set but less robust to systematic errors. But it's OK to go and fix these labels if you can.
+- DL algorithms are quite **robust to random errors** in the training set but **less robust to systematic errors**. But it's OK to go and fix these labels if you can.
 - If you want to check for mislabeled data in dev/test set, you should also try error analysis with the mislabeled column. Ex:
 
   | Image        | Dog    | Great Cats | blurry  | Mislabeled | Comments |
@@ -296,10 +296,10 @@ Here are the course summary as its given on the course [link](https://www.course
 
 - A lot of teams are working with deep learning applications that have training sets that are different from the dev/test sets due to the hunger of deep learning to data.
 - There are some strategies to follow up when training set distribution differs from dev/test sets distribution.
-  - Option one (not recommended): shuffle all the data together and extract randomly training and dev/test sets.
+  - Option one (**not recommended**): shuffle all the data together and extract randomly training and dev/test sets.
     - Advantages: all the sets now come from the same distribution.
     - Disadvantages: the other (real world) distribution that was in the dev/test sets will occur less in the new dev/test sets and that might be not what you want to achieve.
-  - Option two: take some of the dev/test set examples and add them to the training set.
+  - Option two: **take some of the dev/test set examples and add them to the training set.**
     - Advantages: the distribution you care about is your target now.
     - Disadvantage: the distributions in training and dev/test sets are now different. But you will get a better performance over a long time.
 
@@ -316,13 +316,13 @@ Here are the course summary as its given on the course [link](https://www.course
   - Train error: 1%
   - Train-dev error: 9%
   - Dev error: 10%
-  - Now we are sure that this is a high variance problem.
+  - Now we are sure that this is a **high variance** problem.
 - Suppose we have a different situation:
   - Human error: 0%
   - Train error: 1%
   - Train-dev error: 1.5%
   - Dev error: 10%
-  - In this case we have something called *Data mismatch* problem.
+  - In this case we have something called **Data mismatch** problem.
 - Conclusions:
   1. Human-level error (proxy for Bayes error)
   2. Train error
@@ -349,7 +349,7 @@ Here are the course summary as its given on the course [link](https://www.course
       - Examples:
         1. Combine normal audio with car noise to get audio with car noise example.
         2. Generate cars using 3D graphics in a car classification example.
-    - Be cautious and bear in mind whether or not you might be accidentally simulating data only from a tiny subset of the space of all possible examples because your NN might overfit these generated data (like particular car noise or a particular design of 3D graphics cars).
+    - Be cautious and bear in mind whether or not you might be **accidentally simulating data only from a tiny subset of the space of all possible examples because your NN might overfit** these generated data (like particular car noise or a particular design of 3D graphics cars).
 
 ### Transfer learning
 
@@ -360,8 +360,8 @@ Here are the course summary as its given on the course [link](https://www.course
   2. Option 2: if you have enough data you can retrain all the weights.
 - Option 1 and 2 are called **fine-tuning** and training on task A called **pretraining**.
 - When transfer learning make sense:
-  - Task A and B have the same input X (e.g. image, audio).
-  - You have a lot of data for the task A you are transferring from and relatively less data for the task B your transferring to.
+  - **Task A and B have the same input X (e.g. image, audio).**
+  - **You have a lot of data for the task A you are transferring from and relatively less data for the task B your transferring to.**
   - Low level features from task A could be helpful for learning task B.
 
 ### Multi-task learning
@@ -383,9 +383,9 @@ Here are the course summary as its given on the course [link](https://www.course
   - And in this case it will do good with the missing data, just the loss function will be different:   
     `Loss = (1/m) * sum(sum(L(y_hat(i)_j, y(i)_j) for all j which y(i)_j != ?))`
 - Multi-task learning makes sense:
-  1. Training on a set of tasks that could benefit from having shared lower-level features.
-  2. Usually, amount of data you have for each task is quite similar.
-  3. Can train a big enough network to do well on all the tasks.
+  1. Training on a set of tasks that could **benefit from having shared lower-level features**.
+  2. Usually, amount of data you have for each task is quite **similar**.
+  3. Can train a **big enough** network to do well on all the tasks.
 - If you can train a big enough NN, the performance of the multi-task learning compared to splitting the tasks is better.
 - Today transfer learning is used more often than multi-task learning.
 
@@ -399,7 +399,7 @@ Here are the course summary as its given on the course [link](https://www.course
     Audio ---------------------------------------> Transcript    # end-to-end deep learning system
     ```
   - End-to-end deep learning gives data more freedom, it might not use phonemes when training!
-- To build the end-to-end deep learning system that works well, we need a big dataset (more data then in non end-to-end system). If we have a small dataset the ordinary implementation could work just fine.
+- **To build the end-to-end deep learning system that works well, we need a big dataset (more data then in non end-to-end system). If we have a small dataset the ordinary implementation could work just fine.**
 - Example 2:
   - Face recognition system:
     ```
@@ -428,11 +428,11 @@ Here are the course summary as its given on the course [link](https://www.course
 ### Whether to use end-to-end deep learning
 
 - Pros of end-to-end deep learning:
-  - Let the data speak. By having a pure machine learning approach, your NN learning input from X to Y may be more able to capture whatever statistics are in the data, rather than being forced to reflect human preconceptions.
-  - Less hand-designing of components needed.
+  - Let the data speak. By having a pure machine learning approach, your NN learning input from X to Y may be more able to capture whatever statistics are in the data, **rather than being forced to reflect human preconceptions**.
+  - **Less hand-designing of components needed.**
 - Cons of end-to-end deep learning:
-  - May need a large amount of data.
-  - Excludes potentially useful hand-design components (it helps more on the smaller dataset).
+  - May need **a large amount of data.**
+  - **Excludes potentially useful hand-design components (it helps more on the smaller dataset).**
 - Applying end-to-end deep learning:
   - Key question: Do you have sufficient data to learn a function of the **complexity** needed to map x to y?
   - Use ML/DL to learn some individual components.
@@ -446,4 +446,5 @@ Here are the course summary as its given on the course [link](https://www.course
 
 <br><br>
 <br><br>
-These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017
+
+These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017 and later edited by [Hang Jiang](hjian42@icloud.com) @2018

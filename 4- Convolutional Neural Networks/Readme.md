@@ -100,11 +100,11 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
 ### Edge detection example
 
-- The convolution operation is one of the fundamentals blocks of a CNN. One of the examples about convolution is the image edge detection operation.
+- The convolution operation (**implemented in element-wise multiplication**) is one of the fundamentals blocks of a CNN. One of the examples about convolution is the image edge detection operation.
 - Early layers of CNN might detect edges then the middle layers will detect parts of objects and the later layers will put the these parts together to produce an output.
 - In an image we can detect vertical edges, horizontal edges, or full edge detector.
 - Vertical edge detection:
-  - An example of convolution operation to detect vertical edges:
+  - An example of convolution operation to detect **vertical edges**:
     - ![](Images/01.png)
   - In the last example a `6x6` matrix convolved with `3x3` filter/kernel gives us a `4x4` matrix.
   - If you make the convolution operation in TensorFlow you will find the function `tf.nn.conv2d`. In keras you will find `Conv2d` function.
@@ -119,7 +119,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
     -1	-1	-1
     ```
 
-- There are a lot of ways we can put number inside the horizontal or vertical edge detections. For example here are the vertical **Sobel** filter (The idea is taking care of the middle row):
+- There are a lot of ways we can put number inside the horizontal or vertical edge detections. For example here are the vertical **Sobel** filter (aka **kernel**) (The idea is taking care of the middle row):
 
   ```
   1	0	-1
@@ -145,13 +145,13 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 - The convolution operation shrinks the matrix if f>1.
 - We want to apply convolution operation multiple times, but if the image shrinks we will lose a lot of data on this process. Also the edges pixels are used less than other pixels in an image.
 - So the problems with convolutions are:
-  - Shrinks output.
-  - throwing away a lot of information that are in the edges.
+  - **Shrinks output**.
+  - **throwing away a lot of information that are in the edges**.
 - To solve these problems we can pad the input image before convolution by adding some rows and columns to it. We will call the padding amount `P` the number of row/columns that we will insert in top, bottom, left and right of the image.
-- In almost all the cases the padding values are zeros.
-- The general rule now,  if a matrix `nxn` is convolved with `fxf` filter/kernel and padding `p` give us `n+2p-f+1,n+2p-f+1` matrix. 
+- **In almost all the cases the padding values are zeros**.
+- **The general rule now,  if a matrix `nxn` is convolved with `fxf` filter/kernel and padding `p` give us `n+2p-f+1,n+2p-f+1` matrix**. 
 - If n = 6, f = 3, and p = 1 Then the output image will have `n+2p-f+1 = 6+2-3+1 = 6`. We maintain the size of the image.
-- Same convolutions is a convolution with a pad so that output size is the same as the input size. Its given by the equation:
+- **Same convolutions** is a convolution with a pad so that output size is the same as the input size. Its given by the equation:
 
   ```
   P = (f-1) / 2
@@ -172,7 +172,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
 - In case `(n+2p-f)/s + 1` is fraction we can take **floor** of this value.
 
-- In math textbooks the conv operation is filpping the filter before using it. What we were doing is called cross-correlation operation but the state of art of deep learning is using this as conv operation.
+- In math textbooks the conv operation is **filpping** the filter before using it. What we were doing is called **cross-correlation operation** but the state of art of deep learning is using this as **conv operation**.
 
 - Same convolutions is a convolution with a padding so that output size is the same as the input size. Its given by the equation:
 
@@ -184,7 +184,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 ### Convolutions over volumes
 
 - We see how convolution works with 2D images, now lets see if we want to convolve 3D images (RGB image)
-- We will convolve an image of height, width, # of channels with a filter of a height, width, same # of channels. Hint that the image number channels and the filter number of channels are the same.
+- We will convolve an image of height, width, # of channels with a filter of a height, width, **same # of channels. Hint that the image number channels and the filter number of channels are the same**.
 - We can call this as stacked filters for each channel!
 - Example:
   - Input image: `6x6x3`
@@ -207,10 +207,10 @@ Here is the course summary as given on the course [link](https://www.coursera.or
   - Add b (bias) with `10x1` will get us : `4x4x10` image      `#W1a0 + b`
   - Apply RELU will get us: `4x4x10` image                `#A1 = RELU(W1a0 + b)`
   - In the last result p=0, s=1
-  - Hint number of parameters here are: `(3x3x3x10) + 10 = 280`
+  - Hint **number of parameters** here are: `(3x3x3x10) + 10 = 280`
 - The last example forms a layer in the CNN.
 - Hint: no matter the size of the input, the number of the parameters is same if filter size is same. That makes it less prone to overfitting.
-- Here are some notations we will use. If layer l is a conv layer:
+- Here are some **notations we will use. If layer l is a conv layer**:
 
   ```
   Hyperparameters
@@ -267,8 +267,8 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 - Max pooling example:
   - ![](Images/02.png)
   - This example has `f = 2`, `s = 2`, and `p = 0` hyperparameters
-- The max pooling is saying, if the feature is detected anywhere in this filter then keep a high number. But the main reason why people are using pooling because its works well in practice and reduce computations.
-- Max pooling has no parameters to learn.
+- The max pooling is saying, **if the feature is detected anywhere in this filter then keep a high number**. But the main reason why people are using pooling because its works well in practice and reduce computations.
+- Max pooling has **no parameters to learn**.
 - Example of Max pooling on 3D input:
   - Input: `4x4x10`
   - `Max pooling size = 2` and `stride = 2`
@@ -322,10 +322,10 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
 ### Why convolutions?
 
-- Two main advantages of Convs are:
-  - Parameter sharing.
+- Two main advantages of Convs are: (compare with fully connected layer for those two features) ![](Images/why-conv.png)
+  - **Parameter sharing**:
     - A feature detector (such as a vertical edge detector) that's useful in one part of the image is probably useful in another part of the image.
-  - sparsity of connections.
+  - **sparsity of connections**:
     - In each layer, each output value depends only on a small number of inputs which makes it translation invariance.
 - Putting it all together:
   - ![](Images/04.png)
@@ -359,12 +359,12 @@ Here is the course summary as given on the course [link](https://www.coursera.or
   - It has 60k parameters.
   - The dimensions of the image decreases as the number of channels increases.
   - `Conv ==> Pool ==> Conv ==> Pool ==> FC ==> FC ==> softmax` this type of arrangement is quite common.
-  - The activation function used in the paper was Sigmoid and Tanh. Modern implementation uses RELU in most of the cases.
+  - The activation function used in the paper was **Sigmoid and Tanh**. Modern implementation uses **RELU** in most of the cases.
   - [[LeCun et al., 1998. Gradient-based learning applied to document recognition]](http://ieeexplore.ieee.org/document/726791/?reload=true)
 
 - **AlexNet**
 
-  - Named after Alex Krizhevsky who was the first author of this paper. The other authors includes Geoffrey Hinton.
+  - Named after Alex Krizhevsky who was the first author of this paper. The other authors includes **Geoffrey Hinton**.
 
   - The goal for the model was the ImageNet challenge which classifies images into 1000 classes. Here are the drawing of the model:
 
@@ -384,7 +384,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
   - The original paper contains Multiple GPUs and Local Response normalization (RN).
 
-    - Multiple GPUs were used because the GPUs were not so fast back then.
+    - Multiple GPUs were used because the **GPUs** were not so fast back then.
     - Researchers proved that Local Response normalization doesn't help much so for now don't bother yourself for understanding or implementing it. 
 
   - This paper convinced the computer vision researchers that deep learning is so important.
@@ -394,7 +394,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 - **VGG-16**
 
   - A modification for AlexNet.
-  - Instead of having a lot of hyperparameters lets have some simpler network.
+  - Instead of having a lot of hyperparameters lets have some **simpler network**.
   - Focus on having only these blocks:
     - CONV = 3 X 3 filter, s = 1, same  
     - MAX-POOL = 2 X 2 , s = 2
@@ -423,7 +423,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 - **Residual Network**
   - Are a NN that consists of some Residual blocks.
   - ![](Images/09.png)
-  - These networks can go deeper without hurting the performance. In the normal NN - Plain networks - the theory tell us that if we go deeper we will get a better solution to our problem, but because of the vanishing and exploding gradients problems the performance of the network suffers as it goes deeper. Thanks to Residual Network we can go deeper as we want now.
+  - These networks can go deeper without hurting the performance. In the normal NN - Plain networks - the theory tell us that if we go deeper we will get a better solution to our problem, but **because of the vanishing and exploding gradients problems** the performance of the network suffers as it goes deeper. Thanks to **Residual Network we can go deeper as we want now**.
   - ![](Images/10.png)
   - On the left is the normal NN and on the right are the ResNet. As you can see the performance of ResNet increases as the network goes deeper.
   - In some cases going deeper won't effect the performance and that depends on the problem on your hand.
@@ -452,7 +452,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
       	   = g( W[l+2] a[l+1] + b[l+2] + a[l] )
       ```
 
-  - Then if we are using L2 regularization for example, `W[l+2]` will be zero. Lets say that `b[l+2]` will be zero too.
+  - Then if we are using **L2 regularization for example, `W[l+2]` will be zero**. Lets say that `b[l+2]` will be zero too.
 
   - Then `a[l+2] = g( a[l] ) = a[l]` with no negative values.
 
@@ -462,8 +462,8 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
   - Hint: dimensions of z[l+2] and a[l] have to be the same in resNets. In case they have different dimensions what we put a matrix parameters (Which can be learned or fixed)
 
-    - `a[l+2] = g( z[l+2] + ws * a[l] ) # The added Ws should make the dimentions equal`
-    - ws also can be a zero padding.
+    - **`a[l+2] = g( z[l+2] + ws * a[l] ) # The added Ws should make the dimentions equal`**
+    - **ws also can be a zero padding**.
 
 - Using a skip-connection helps the gradient to backpropagate and thus helps you to train deeper networks
 
@@ -485,12 +485,12 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
 - Residual blocks types:
 
-  - Identity block:
+  - **Identity block**:
     - ![](Images/16.png)
     - Hint the conv is followed by a batch norm `BN` before `RELU`. Dimensions here are same.
     - This skip is over 2 layers. The skip connection can jump n connections where n>2
     - This drawing represents [Keras](https://keras.io/) layers.
-  - The convolutional block:
+  - The **convolutional block**:
     - ![](Images/17.png)
     - The conv can be bottleneck 1 x 1 conv
 
@@ -511,14 +511,14 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
 - The Network in Network is proposed in [Lin et al., 2013. Network in network]
 
-- It has been used in a lot of modern CNN implementations like ResNet and Inception models.
+- It has been used in a lot of modern CNN implementations like **ResNet and Inception models**.
 
 - A 1 x 1 convolution is useful when:
 
-  - We want to shrink the number of channels. We also call this feature transformation.
+  - We want to **shrink the number of channels. We also call this feature transformation**.
     - In the second discussed example above we have shrinked the input from 32 to 5 channels.
   - We will later see that by shrinking it we can save a lot of computations.
-  - If we have specified the number of 1 x 1 Conv filters to be the same as the input number of channels then the output will contain the same number of channels. Then the 1 x 1 Conv will act like a non linearity and will learn non linearity operator. 
+  - **If we have specified the number of 1 x 1 Conv filters to be the same as the input number of channels then the output will contain the same number of channels. Then the 1 x 1 Conv will act like a non linearity and will learn non linearity operator.** 
 
 - Replace fully connected layers with 1 x 1 convolutions as Yann LeCun believes they are the same.
 
@@ -536,7 +536,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
   - Input to the inception module are 28 x 28 x 192 and the output are 28 x 28 x 256
   - We have done all the Convs and pools we might want and will let the NN learn and decide which it want to use most.
   - [[Szegedy et al. 2014. Going deeper with convolutions]](https://arxiv.org/abs/1409.4842)
-- The problem of computational cost in Inception model:
+- The problem of **computational cost in Inception model**:
   - If we have just focused on a 5 x 5 Conv that we have done in the last example.
   - There are 32 same filters of 5 x 5, and the input are 28 x 28 x 192.
   - Output should be 28 x 28 x 32
@@ -544,7 +544,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
     - Number of outputs * Filter size * Filter size * Input dimensions
     - Which equals: `28 * 28 * 32 * 5 * 5 * 192 = 120 Mil` 
     - 120 Mil multiply operation still a problem in the modern day computers.
-  - Using a 1 x 1 convolution we can reduce 120 mil to just 12 mil. Lets see how.
+  - **Using a 1 x 1 convolution we can reduce 120 mil to just 12 mil**. Lets see how.
 - Using 1 X 1 convolution to reduce computational cost:
   - The new architecture are:
     - X0 shape is (28, 28, 192)
@@ -594,7 +594,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
   - Lets say you have a cat classification problem which contains 3 classes Tigger, Misty and neither.
   - You don't have much a lot of data to train a NN on these images.
   - Andrew recommends to go online and download a good NN with its weights, remove the softmax activation layer and put your own one and make the network learn only the new layer while other layer weights are fixed/frozen.
-  - Frameworks have options to make the parameters frozen in some layers using `trainable = 0` or `freeze = 0`
+  - Frameworks have options to make the parameters **frozen in some layers using `trainable = 0` or `freeze = 0`**
   - One of the tricks that can speed up your training, is to run the pretrained NN without final softmax layer and get an intermediate representation of your images and save them to disk. And then use these representation to a shallow NN network. This can save you the time needed to run an image through all the layers.
     - Its like converting your images into vectors.
 - Another example:
@@ -630,12 +630,12 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 - For a specific problem we may have a little data for it or a lots of data.
 - Speech recognition problems for example has a big amount of data, while image recognition has a medium amount of data and the object detection has a small amount of data nowadays.
 - If your problem has a large amount of data, researchers are tend to use:
-  - Simpler algorithms.
-  - Less hand engineering.
+  - **Simpler algorithms.**
+  - **Less hand engineering.**
 - If you don't have that much data people tend to try more hand engineering for the problem "Hacks". Like choosing a more complex NN architecture.
 - Because we haven't got that much data in a lot of computer vision problems, it relies a lot on hand engineering.
 - We will see in the next chapter that because the object detection has less data, a more complex NN architectures will be presented.
-- Tips for doing well on benchmarks/winning competitions:
+- **Tips for doing well on benchmarks/winning competitions**:
   - Ensembling.
     - Train several networks independently and average their outputs. Merging down some classifiers.
     - After you decide the best architecture for your problem, initialize some of that randomly and train them independently.
@@ -682,7 +682,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 
 - To make classification with localization we use a Conv Net with a softmax attached to the end of it and a four numbers `bx`, `by`, `bh`, and `bw` to tell you the location of the class in the image. The dataset should contain this four numbers with the class too.
 
-- Defining the target label Y in classification with localization problem: 
+- **Defining the target label Y in classification with localization problem:**
 
   - ```
     Y = [
@@ -727,7 +727,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
       ]
       ```
 
-- The loss function for the Y we have created (Example of the square error):
+- **The loss function for the Y we have created (Example of the square error):**
 
   - ```
     L(y',y) = {
@@ -793,12 +793,12 @@ Here is the course summary as given on the course [link](https://www.coursera.or
     - ![](Images/21.png)
   - Simply we have feed the image into the same Conv net we have trained.
   - The left cell of the result "The blue one" will represent the the first sliding window of the normal implementation. The other cells will represent the others.
-  - Its more efficient because it now shares the computations of the four times needed.
+  - Its **more efficient because it now shares the computations of the four times needed**.
   - Another example would be:
     - ![](Images/22.png)
   - This example has a total of 16 sliding windows that shares the computation together.
   - [[Sermanet et al., 2014, OverFeat: Integrated recognition, localization and detection using convolutional networks]](https://arxiv.org/abs/1312.6229)
-- The weakness of the algorithm is that the position of the rectangle wont be so accurate. Maybe none of the rectangles is exactly on the object you want to recognize.
+- The **weakness** of the algorithm is that the position of the rectangle wont be so accurate. Maybe none of the rectangles is exactly on the object you want to recognize.
   - ![](Images/23.png)
   - In red, the rectangle we want and in blue is the required car rectangle.
 
@@ -830,14 +830,14 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 ### Intersection Over Union
 
 - Intersection Over Union is a function used to evaluate the object detection algorithm.
-- It computes size of intersection and divide it by the union. More generally, *IoU* *is a measure of the overlap between two bounding boxes*.
+- It computes size of intersection and divide it by the union. More generally, **IoU is a measure of the overlap between two bounding boxes**.
 - For example:
   - ![](Images/25.png)
   - The red is the labeled output and the purple is the predicted output.
   - To compute Intersection Over Union we first compute the union area of the two rectangles which is "the first rectangle + second rectangle" Then compute the intersection area between these two rectangles.
   - Finally `IOU = intersection area / Union area`
 - If `IOU >=0.5` then its good. The best answer will be 1.
-- The higher the IOU the better is the accuracy.
+- The higher the IOU the better is the accuracy. Never use a threshold below this...
 
 ### Non-max Suppression
 
@@ -1173,7 +1173,7 @@ Here is the course summary as given on the course [link](https://www.coursera.or
 - We will implement the similarity function using a type of NNs called Siamease Network in which we can pass multiple inputs to the two or more networks with the same architecture and parameters.
 - Siamese network architecture are as the following:
   - ![](Images/35.png)
-  - We make 2 identical conv nets which encodes an input image into a vector. In the above image the vector shape is (128, )
+  - We make 2 identical conv nets which **encodes an input image into a vector. In the above image the vector shape is (128, )**
   - The loss function will be `d(x1, x2) = || f(x1) - f(x2) ||^2`
   - If `X1`, `X2` are the same person, we want d to be low. If they are different persons, we want d to be high.
   - [[Taigman et. al., 2014. DeepFace closing the gap to human level performance]](https://www.cv-foundation.org/openaccess/content_cvpr_2014/html/Taigman_DeepFace_Closing_the_2014_CVPR_paper.html)

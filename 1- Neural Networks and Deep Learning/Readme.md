@@ -154,7 +154,7 @@ Here are the course summary as its given on the course [link](https://www.course
 
 - First loss function would be the square root error:  `L(y',y) = 1/2 (y' - y)^2`
   - But we won't use this notation because it leads us to optimization problem which is non convex, means it contains local optimum points.
-- This is the function that we will use: `L(y',y) = - (y*log(y') + (1-y)*log(1-y'))`
+- This is the function that we will use: `L(y',y) = - (y*log(y') + (1-y)*log(1-y'))` (also known as `Cross-Entropy Loss`)
 - To explain the last function lets see:
   - if `y = 1` ==> `L(y',1) = -log(y')`  ==> we want `y'` to be the largest   ==> `y`' biggest value is 1
   - if `y = 0` ==> `L(y',0) = -log(1-y')` ==> we want `1-y'` to be the largest ==> `y'` to be smaller as possible because it can only has 1 value.
@@ -631,6 +631,9 @@ Here are the course summary as its given on the course [link](https://www.course
 - Dimension of `b` is `(n[l],1)`
 - `dw` has the same shape as `W`, while `db` is the same shape as `b`
 - Dimension of `Z[l],` `A[l]`, `dZ[l]`, and `dA[l]`  is `(n[l],m)`
+- **LESSON**: keep in mind the dimensions of each variable!!! Learn it by heart, this helps me to clear confusion at any time. 
+- for one neuron, b is (1,1), w is (1, n[l-1]); for a layer of neurons, b[l] is (n[l]),, w[l] is (n[l], n[l-1]). Input layer is also known as having (n[0],1) for one input, (n[0],m) for m inputs (a batch). -
+![](Images/week4/dimensions.png)
 
 ### Why deep representations?
 
@@ -641,9 +644,9 @@ Here are the course summary as its given on the course [link](https://www.course
   - 2) Audio recognition application:
       - Audio ==> Low level sound features like (sss,bb) ==> Phonemes ==> Words ==> Sentences
 - Neural Researchers think that deep neural networks "think" like brains (simple ==> complex)
-- Circuit theory and deep learning:
+- Circuit theory and deep learning: adding depth >> adding \# of units
   - ![](Images/07.png)
-- When starting on an application don't start directly by dozens of hidden layers. Try the simplest solutions (e.g. Logistic Regression), then try the shallow neural network and so on.
+- Despite the circuit theory, when starting on an application don't start directly by dozens of hidden layers. Try the simplest solutions (e.g. Logistic Regression), then try the shallow neural network and so on.
 
 ### Building blocks of deep neural networks
 
@@ -680,6 +683,7 @@ Here are the course summary as its given on the course [link](https://www.course
   dA[L] = (-(y/a) + ((1-y)/(1-a)))
   ```
 
+
 ### Parameters vs Hyperparameters
 
 - Main parameters of the NN is `W` and `b`
@@ -689,7 +693,7 @@ Here are the course summary as its given on the course [link](https://www.course
   - Number of hidden layers `L`.
   - Number of hidden units `n`.
   - Choice of activation functions.
-- You have to try values yourself of hyper parameters.
+- You have to try values yourself of hyper parameters. **Applied deep learning is a very empirical processs...**
 - In the earlier days of DL and ML learning rate was often called a parameter, but it really is (and now everybody call it) a hyperparameter.
 - On the next course we will see how to optimize hyperparameters.
 
@@ -719,5 +723,6 @@ Here are the course summary as its given on the course [link](https://www.course
 
 <br><br>
 <br><br>
-These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017
+These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017 and later edited by [Hang Jiang](hjian42@icloud.com) @2018
+
 

@@ -134,7 +134,7 @@ Here are the course summary as its given on the course [link](https://www.course
 - The goal is given this representation for x to learn a mapping using a sequence model to then target output y as a supervised learning problem.
 
 ### Recurrent Neural Network Model
-- Why not to use a standard network for sequence tasks? There are two problems:
+- Why not to use a standard network for sequence tasks? There are **two problems**:
   - Inputs, outputs can be different lengths in different examples.
     - This can be solved for normal NNs by paddings with the maximum lengths but it's not a good solution.
   - Doesn't share features learned across different positions of text/sequence.

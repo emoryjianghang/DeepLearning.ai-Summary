@@ -79,50 +79,40 @@ Here are the course summary as its given on the course [link](https://www.course
 - You will try to build a model upon training set then try to optimize hyperparameters on dev set as much as possible. Then after your model is ready you try and evaluate the testing set.
 - so the trend on the ratio of splitting the models:
   - If size of the  dataset is 100 to 1000000  ==> 60/20/20
-  - If size of the  dataset is 1000000  to INF  ==> 98/1/1 or  99.5/0.25/0.25
+  - **If size of the  dataset is 1000000  to INF  ==> 98/1/1 or  99.5/0.25/0.25**
 - The trend now gives the training data the biggest sets.
-- Make sure the dev and test set are coming from the same distribution.
-  - For example if cat training pictures is from the web and the dev/test pictures are from users cell phone they will mismatch. It is better to make sure that dev and test set are from the same distribution.
+- Make sure the dev and test set are coming from the **same distribution**.
+  - For example if cat training pictures is from the web and the dev/test pictures are from users cell phone they will mismatch. It is better to make sure that dev and test set are from the same distribution. If users upload photos with bad resolutions, then it is from different distributions.
 - The dev set rule is to try them on some of the good models you've created.
-- Its OK to only have a dev set without a testing set. But a lot of people in this case call the dev set as the test set. A better terminology is to call it a dev set as its used in the development.
+- Its **OK to only have a dev set** without a testing set. But a lot of people in this case call the dev set as the test set. A better terminology is to call it a dev set as its used in the development.
 
 ### Bias / Variance
 
 - Bias / Variance techniques are Easy to learn, but difficult to master.
 - So here the explanation of Bias / Variance:
-  - If your model is underfitting (logistic regression of non linear data) it has a "high bias"
-  - If your model is overfitting then it has a "high variance"
+  - If your model is **underfitting (logistic regression of non linear data) it has a "high bias"**
+  - If your model is **overfitting then it has a "high variance"**
   - Your model will be alright if you balance the Bias / Variance
   - For more:
     - ![](Images/01-_Bias_-_Variance.png)
 - Another idea to get the bias /  variance if you don't have a 2D plotting mechanism:
-  - High variance (overfitting) for example:
-    - Training error: 1%
-    - Dev error: 11%
-  - high Bias (underfitting) for example:
-    - Training error: 15%
-    - Dev error: 14%
-  - high Bias (underfitting) && High variance (overfitting) for example:
-    - Training error: 15%
-    - Test error: 30%
-  - Best:
-    - Training error: 0.5%
-    - Test error: 1%
-  - These Assumptions came from that human has 0% error. If the problem isn't like that you'll need to use human error as baseline.
+  - ![](Images/bias_variance.png)
+  - ![High variance & high bias](Images/high_variance+bias.png)
+  - These **Assumptions came from that human has 0% error. If the problem isn't like that you'll need to use human error as baseline.**
 
 ### Basic Recipe for Machine Learning
 
-- If your algorithm has a high bias:
+- If your algorithm has a **high bias**:
   - Try to make your NN bigger (size of hidden units, number of layers)
   - Try a different model that is suitable for your data.
   - Try to run it longer.
   - Different (advanced) optimization algorithms.
-- If your algorithm has a high variance:
+- If your algorithm has a **high variance**:
   - More data.
   - Try regularization.
   - Try a different model that is suitable for your data.
 - You should try the previous two points until you have a low bias and low variance.
-- In the older days before deep learning, there was a "Bias/variance tradeoff". But because now you have more options/tools for solving the bias and variance problem its really helpful to use deep learning.
+- In the older days before deep learning, there was a "**Bias/variance tradeoff**". But because now you have more options/tools for solving the bias and variance problem its really helpful to use deep learning.
 - Training a bigger neural network never hurts.
 
 ### Regularization
@@ -155,7 +145,7 @@ Here are the course summary as its given on the course [link](https://www.course
   - The new way:   
     `dw[l] = (from back propagation) + lambda/m * w[l]`
 
-  - So plugging it in weight update step:
+  - So plugging it in weight update step: #TODO: ???
 
     - ```
       w[l] = w[l] - learning_rate * dw[l]
@@ -187,7 +177,7 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
 - In most cases Andrew Ng tells that he uses the L2 regularization.
 - The dropout regularization eliminates some neurons/weights on each iteration based on a probability.
 - A most common technique to implement dropout is called "Inverted dropout".
-- Code for Inverted dropout:
+- Code for **Inverted dropout**:
 
   ```python
   keep_prob = 0.8   # 0 <= keep_prob <= 1
@@ -201,14 +191,14 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
   # (ensures that the expected value of a3 remains the same) - to solve the scaling problem
   a3 = a3 / keep_prob       
   ```
-- Vector d[l] is used for forward and back propagation and is the same for them, but it is different for each iteration (pass) or training example.
-- At test time we don't use dropout. If you implement dropout at test time - it would add noise to predictions.
+- Vector d[l] is used for forward and back propagation and is the same for them, but it is **different** for each iteration (pass) or training example.
+- **At test time we don't use dropout.** If you implement dropout at test time - it would add noise to predictions.
 
 ### Understanding Dropout
 
 - In the previous video, the intuition was that dropout randomly knocks out units in your network. So it's as if on every iteration you're working with a smaller NN, and so using a smaller NN seems like it should have a regularizing effect.
 - Another intuition: can't rely on any one feature, so have to spread out weights.
-- It's possible to show that dropout has a similar effect to L2 regularization.
+- It's possible to show that dropout has a **similar effect to L2 regularization**.
 - Dropout can have different `keep_prob` per layer.
 - The input layer dropout has to be near 1 (or 1 - no dropout) because you don't want to eliminate a lot of features.
 - If you're more worried about some layers overfitting than others, you can set a lower `keep_prob` for some layers than others. The downside is, this gives you even more hyperparameters to search for using cross-validation. One other alternative might be to have some layers where you apply dropout and some layers where you don't apply dropout and then just have one hyperparameter, which is a `keep_prob` for the layers for which you do apply dropouts.
@@ -229,7 +219,7 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
   - We will pick the point at which the training set error and dev set error are best (lowest training cost with lowest dev cost).
   - We will take these parameters as the best parameters.
     - ![](Images/02-_Early_stopping.png)
-  - Andrew prefers to use L2 regularization instead of early stopping because this technique simultaneously tries to minimize the cost function and not to overfit which contradicts the orthogonalization approach (will be discussed further).
+  - **Andrew prefers to use L2 regularization instead of early stopping** because this technique simultaneously tries to minimize the cost function and not to overfit which **contradicts the orthogonalization approach** (will be discussed further).
   - But its advantage is that you don't need to search a hyperparameter like in other regularization approaches (like `lambda` in L2 regularization).
 - **Model Ensembles**:
   - Algorithm:
@@ -238,10 +228,11 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
   - It can get you extra 2% performance.
   - It reduces the generalization error.
   - You can use some snapshots of your NN at the training ensembles them and take the results.
+- **Regularization summary**: this is all about reducing the variance, less overfitting.
 
 ### Normalizing inputs
 
-- If you normalize your inputs this will speed up the training process a lot.
+- If you normalize your inputs this will **speed up the training process a lot**.
 - Normalization are going on these steps:
   1. Get the mean of the training set: `mean = (1/m) * sum(x(i))`
   2. Subtract the mean from each input: `X = X - mean`
@@ -250,7 +241,7 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
   4. Normalize the variance. `X /= variance`
 - These steps should be applied to training, dev, and testing sets (but using mean and variance of the train set).
 - Why normalize?
-  - If we don't normalize the inputs our cost function will be deep and its shape will be inconsistent (elongated) then optimizing it will take a long time.
+  - **If we don't normalize the inputs our cost function will be deep and its shape will be inconsistent (elongated) then optimizing it will take a long time**.
   - But if we normalize it the opposite will occur. The shape of the cost function will be consistent (look more symmetric like circle in 2D example) and we can use a larger learning rate alpha - the optimization will be faster.
 
 ### Vanishing / Exploding gradients
@@ -276,8 +267,8 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
               [0  0.5]
     ```
 - The last example explains that the activations (and similarly derivatives) will be decreased/increased exponentially as a function of number of layers.
-- So If W > I (Identity matrix) the activation and gradients will explode.
-- And If W < I (Identity matrix) the activation and gradients will vanish.
+- So If W > I (Identity matrix) the activation and gradients will **explode**.
+- And If W < I (Identity matrix) the activation and gradients will **vanish**.
 - Recently Microsoft trained 152 layers (ResNet)! which is a really big number. With such a deep neural network, if your activations or gradients increase or decrease exponentially as a function of L, then these values could get really big or really small. And this makes training difficult, especially if your gradients are exponentially smaller than L, then gradient descent will take tiny little steps. It will take a long time for gradient descent to learn anything.
 - There is a partial solution that doesn't completely solve this problem but it helps a lot - careful choice of how you initialize the weights (next video).
 
@@ -331,7 +322,7 @@ _**Implementation tip**_: if you implement gradient descent, one of the steps to
 - Use gradient checking only for debugging.
 - If algorithm fails grad check, look at components to try to identify the bug.
 - Don't forget to add `lamda/(2m) * sum(W[l])` to `J` if you are using L1 or L2 regularization.
-- Gradient checking doesn't work with dropout because J is not consistent. 
+- **Gradient checking doesn't work with dropout** because J is not consistent. 
   - You can first turn off dropout (set `keep_prob = 1.0`), run gradient checking and then turn on dropout again.
 - Run gradient checking at random initialization and train the network for a while maybe there's a bug which can be seen when w's and b's become larger (further from 0) and can't be seen on the first iteration (when w's and b's are very small).
 
@@ -429,7 +420,7 @@ L2-regularization relies on the assumption that a model with small weights is si
       - make progress without waiting to process the entire training set
   2. doesn't always exactly converge (oscelates in a very small region, but you can reduce learning rate)
 - Guidelines for choosing mini-batch size:
-  1. If small training set (< 2000 examples) - use batch gradient descent.
+  1. **If small training set (< 2000 examples) - use batch gradient descent**.
   2. It has to be a power of 2 (because of the way computer memory is layed out and accessed, sometimes your code runs faster if your mini-batch size is a power of 2):
     `64, 128, 256, 512, 1024, ...`
   3. Make sure that mini-batch fits in CPU/GPU memory.
@@ -499,6 +490,7 @@ L2-regularization relies on the assumption that a model with small weights is si
 - The momentum algorithm almost always works faster than standard gradient descent.
 - The simple idea is to calculate the exponentially weighted averages for your gradients and then update your weights with the new values.
 - Pseudo code:
+
   ```
   vdW = 0, vdb = 0
   on iteration t:
@@ -519,6 +511,7 @@ L2-regularization relies on the assumption that a model with small weights is si
 - Stands for **Root mean square prop**.
 - This algorithm speeds up the gradient descent.
 - Pseudo code:
+
   ```
   sdW = 0, sdb = 0
   on iteration t:
@@ -543,6 +536,7 @@ L2-regularization relies on the assumption that a model with small weights is si
 - Adam optimization and RMSprop are among the optimization algorithms that worked very well with a lot of NN architectures.
 - Adam optimization simply puts RMSprop and momentum together!
 - Pseudo code:
+
   ```
   vdW = 0, vdW = 0
   sdW = 0, sdb = 0
@@ -587,11 +581,11 @@ L2-regularization relies on the assumption that a model with small weights is si
 
 ### The problem of local optima
 
-- The normal local optima is not likely to appear in a deep neural network because data is usually high dimensional. For point to be a local optima it has to be a local optima for each of the dimensions which is highly unlikely.
-- It's unlikely to get stuck in a bad local optima in high dimensions, it is much more likely to get to the saddle point rather to the local optima, which is not a problem.
+- The normal local optima is **not likely to appear in a deep neural network** because data is usually high dimensional. For point to be a local optima it has to be a local optima for each of the dimensions which is highly unlikely.
+- It's unlikely to get stuck in a bad local optima in high dimensions, it is much **more likely to get to the saddle point rather to the local optima**, which is not a problem.
 - Plateaus can make learning slow:
-  - Plateau is a region where the derivative is close to zero for a long time.
-  - This is where algorithms like momentum, RMSprop or Adam can help.
+  - **Plateau is a region where the derivative is close to zero for a long time**.
+  - This is where **algorithms like momentum, RMSprop or Adam can help**.
 
 
 
@@ -639,7 +633,7 @@ L2-regularization relies on the assumption that a model with small weights is si
     beta = 1 - 10^r   # because 1 - beta = 10^r
     ```
 
-### Hyperparameters tuning in practice: Pandas vs. Caviar 
+### Hyperparameters tuning in practice: Panda vs. Caviar 
 
 - Intuitions about hyperparameter settings from one application area may or may not transfer to a different one.
 - If you don't have much computational resources you can use the "babysitting model":
@@ -696,22 +690,22 @@ L2-regularization relies on the assumption that a model with small weights is si
 ### Why does Batch normalization work?
 
 - The first reason is the same reason as why we normalize X.
-- The second reason is that batch normalization reduces the problem of input values changing (shifting).
+- The second reason is that batch normalization reduces the problem of input values changing (**covariate shifting**). 
 - Batch normalization does some regularization:
   - Each mini batch is scaled by the mean/variance computed of that mini-batch.
-  - This adds some noise to the values `Z[l]` within that mini batch. So similar to dropout it adds some noise to each hidden layer's activations.
+  - This adds some **noise** to the values `Z[l]` within that mini batch. So similar to dropout it adds some noise to each hidden layer's activations.
   - This has a slight regularization effect.
-  - Using bigger size of the mini-batch you are reducing noise and therefore regularization effect.
-  - Don't rely on batch normalization as a regularization. It's intended for normalization of hidden units, activations and therefore speeding up learning. For regularization use other regularization techniques (L2 or dropout).
+  - **Using bigger size of the mini-batch you are reducing noise and therefore regularization effect **. This is also strange and why we dont want to rely it for regularization.
+  - **Don't rely on batch normalization as a regularization. It's intended for normalization of hidden units, activations and therefore speeding up learning**. For regularization use other regularization techniques (L2 or dropout).
 
 ### Batch normalization at test time
 
 - When we train a NN with Batch normalization, we compute the mean and the variance of the mini-batch.
 - In testing we might need to process examples one at a time. The mean and the variance of one example won't make sense.
 - We have to compute an estimated value of mean and variance to use it in testing time.
-- We can use the weighted average across the mini-batches.
+- We can use the weighted average across the mini-batches seen during training.
 - We will use the estimated values of the mean and variance to test.
-- This method is also sometimes called "Running average".
+- This method is also sometimes called **"Running average".** (exponentially weighted average)
 - In practice most often you will use a deep learning framework and it will contain some default implementation of doing such a thing.
 
 ### Softmax Regression
@@ -891,4 +885,4 @@ _**Side notes:**_
 
 <br><br>
 <br><br>
-These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017
+These Notes were made by [Mahmoud Badry](mailto:mma18@fayoum.edu.eg) @2017 and later edited by [Hang Jiang](hjian42@icloud.com) @2018
